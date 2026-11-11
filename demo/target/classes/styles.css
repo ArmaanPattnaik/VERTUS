@@ -1,0 +1,920 @@
+
+/* =========================================================
+   ANDALUSIAN COURTYARD - CPU SCHEDULER
+   =========================================================
+
+   Palette:
+   parchment #F1E7CF
+   cream    #FAF4E4
+   ink      #3A2E25
+
+   emerald  #0F6B4F
+   forest   #0A4636
+   turquoise #2BA3A0
+
+   lapis    #1B3358
+   deep lapis #12233F
+
+   gold     #C8A24A
+   bronze   #A9743F
+   muted brown #7A6452
+
+   Fonts:
+   Playfair Display  -> major titles / focal numbers
+   Cormorant Garamond -> captions / literary text
+   Cinzel            -> ceremonial / compact labels
+   Libre Baskerville -> table data / readable information
+   Amiri             -> Andalusian / Arabic-inspired accents
+   Reem Kufi         -> functional controls / UI labels
+
+   Fonts should be loaded with Font.loadFont().
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+.root-container {
+    -fx-background-color:
+        linear-gradient(
+            to bottom right,
+            #F1E7CF 0%,
+            #E6EBD3 55%,
+            #CDEBE4 100%
+        );
+
+    -fx-font-family: "Amiri", "Georgia";
+    -fx-font-size: 15px;
+    -fx-text-fill: #3A2E25;
+}
+
+.content-area {
+    -fx-background-color: transparent;
+}
+
+.card {
+    -fx-background-color: rgba(250, 244, 228, 0.80);
+
+    -fx-border-color:
+        #C8A24A,
+        rgba(200, 162, 74, 0.6);
+
+    -fx-border-width: 2, 1;
+    -fx-border-insets: 0, 5;
+
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+    -fx-padding: 22;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(10, 70, 54, 0.22),
+            26,
+            0.05,
+            0,
+            10
+        );
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    -fx-background-color:
+        linear-gradient(
+            to bottom,
+            #1B3358,
+            #12233F
+        );
+
+    -fx-border-color: #C8A24A, #C8A24A;
+    -fx-border-width: 2, 1;
+    -fx-border-insets: 0, 6;
+
+    -fx-padding: 30 24;
+}
+
+
+/* Main application name
+   Monumental serif treatment */
+
+.app-title {
+    -fx-font-family: "Cinzel";
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #F1E7CF;
+}
+
+
+/* Optional subtitle */
+
+.app-subtitle {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 16px;
+    -fx-text-fill: #C8A24A;
+}
+
+
+/* Decorative symbol */
+
+.ornament {
+    -fx-font-family: "Segoe UI Symbol";
+    -fx-font-size: 22px;
+    -fx-text-fill: #C8A24A;
+}
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.page-title {
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3A2E25;
+}
+
+.page-subtitle {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 17px;
+    -fx-text-fill: #7A6452;
+}
+
+.section-title {
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0A4636;
+}
+
+.section-caption {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 16px;
+    -fx-text-fill: #7A6452;
+}
+
+
+/* Thin gold rule */
+
+.hairline {
+    -fx-background-color:
+        linear-gradient(
+            to right,
+            #C8A24A 0%,
+            rgba(200, 162, 74, 0) 100%
+        );
+
+    -fx-pref-height: 1;
+    -fx-max-height: 1;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.input-label {
+    -fx-font-family: "Cinzel";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #7FD0CB;
+}
+
+.input-control {
+    -fx-background-color: #FAF4E4;
+    -fx-text-fill: #3A2E25;
+    -fx-prompt-text-fill: #9A8772;
+
+    -fx-border-color: #C8A24A;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+
+    -fx-padding: 9 12;
+    -fx-font-family: "Libre Baskerville";
+    -fx-font-size: 13px;
+}
+
+.input-control:focused {
+    -fx-background-color: #FFFBEE;
+
+    -fx-border-color: #2BA3A0;
+    -fx-border-width: 2;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(43, 163, 160, 0.55),
+            10,
+            0.2,
+            0,
+            0
+        );
+}
+
+
+/* Combo box */
+
+.input-control .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3A2E25;
+    -fx-padding: 0;
+}
+
+.input-control .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.input-control .arrow {
+    -fx-background-color: #0F6B4F;
+}
+
+
+/* Combo popup */
+
+.combo-box-popup .list-view {
+    -fx-background-color: #FAF4E4;
+    -fx-border-color: #C8A24A;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: #FAF4E4;
+    -fx-text-fill: #3A2E25;
+
+    -fx-padding: 8 12;
+    -fx-font-family: "Libre Baskerville";
+    -fx-font-size: 13px;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #CDEBE4;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #0F6B4F;
+    -fx-text-fill: #FAF4E4;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.primary-button,
+.secondary-button,
+.danger-button {
+
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+
+    -fx-padding: 11 20;
+
+    -fx-font-family: "Reem Kufi";
+    -fx-font-size: 14px;
+
+    -fx-cursor: hand;
+}
+
+
+/* Primary */
+
+.primary-button {
+    -fx-background-color:
+        linear-gradient(
+            to bottom,
+            #1A8462,
+            #0F6B4F
+        );
+
+    -fx-text-fill: #FAF4E4;
+
+    -fx-border-color: #0A4636;
+    -fx-border-width: 2;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            #C8A24A,
+            0,
+            0,
+            4,
+            4
+        );
+}
+
+.primary-button:hover {
+    -fx-background-color:
+        linear-gradient(
+            to bottom,
+            #22966F,
+            #138060
+        );
+
+    -fx-translate-x: -1;
+    -fx-translate-y: -1;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            #C8A24A,
+            0,
+            0,
+            6,
+            6
+        );
+}
+
+.primary-button:pressed {
+    -fx-translate-x: 3;
+    -fx-translate-y: 3;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            #C8A24A,
+            0,
+            0,
+            1,
+            1
+        );
+}
+
+
+/* Secondary */
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #F1E7CF;
+
+    -fx-border-color: #C8A24A;
+    -fx-border-width: 1.5;
+}
+
+.secondary-button:hover {
+    -fx-background-color: rgba(200, 162, 74, 0.18);
+}
+
+.secondary-button:pressed {
+    -fx-background-color: rgba(200, 162, 74, 0.30);
+}
+
+
+/* Danger */
+
+.danger-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #F0A58C;
+
+    -fx-border-color: #B5573C;
+    -fx-border-width: 1.5;
+}
+
+.danger-button:hover {
+    -fx-background-color: rgba(181, 87, 60, 0.22);
+    -fx-text-fill: #FAD3C4;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.process-table {
+    -fx-background-color: rgba(250, 244, 228, 0.85);
+
+    -fx-border-color: #C8A24A;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(10, 70, 54, 0.18),
+            16,
+            0.05,
+            0,
+            6
+        );
+}
+
+
+/* Header */
+
+.process-table .column-header-background {
+    -fx-background-color:
+        linear-gradient(
+            to bottom,
+            #0F6B4F,
+            #0A4636
+        );
+
+    -fx-background-radius: 6 6 0 0;
+}
+
+.process-table .column-header {
+    -fx-background-color: transparent;
+
+    -fx-border-color:
+        transparent
+        transparent
+        #C8A24A
+        transparent;
+
+    -fx-size: 46px;
+}
+
+.process-table .column-header .label {
+    -fx-text-fill: #F1E7CF;
+
+    -fx-font-family: "Cinzel";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
+    -fx-alignment: CENTER;
+}
+
+.process-table .filler {
+    -fx-background-color: transparent;
+}
+
+
+/* Rows */
+
+.process-table .table-row-cell {
+    -fx-background-color: #FAF4E4;
+
+    -fx-cell-size: 44px;
+
+    -fx-border-color:
+        transparent
+        transparent
+        #E6D8B5
+        transparent;
+}
+
+.process-table .table-row-cell:odd {
+    -fx-background-color: #F3E9CF;
+}
+
+.process-table .table-row-cell:hover {
+    -fx-background-color: #CDEBE4;
+}
+
+.process-table .table-row-cell:selected {
+    -fx-background-color: #BFDCC9;
+}
+
+
+/* Hide empty rows */
+
+.process-table .table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+
+/* Table data */
+
+.process-table .table-cell {
+    -fx-font-family: "Libre Baskerville";
+
+    -fx-text-fill: #3A2E25;
+    -fx-font-size: 13px;
+
+    -fx-alignment: CENTER;
+    -fx-border-color: transparent;
+}
+
+
+/* Empty table */
+
+.process-table .placeholder .label,
+.empty-msg {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 19px;
+
+    -fx-text-fill: #7A6452;
+}
+
+
+/* =========================================================
+   STATS CARDS
+   ========================================================= */
+
+.summary-container {
+    -fx-spacing: 12;
+}
+
+.stat-card {
+    -fx-background-color: rgba(250, 244, 228, 0.88);
+
+    -fx-background-radius: 8;
+
+    -fx-border-width: 4 0 0 0;
+
+    -fx-padding: 16 22;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(10, 70, 54, 0.18),
+            16,
+            0.05,
+            0,
+            6
+        );
+}
+
+.accent-emerald {
+    -fx-border-color:
+        #0F6B4F
+        transparent
+        transparent
+        transparent;
+}
+
+.accent-aqua {
+    -fx-border-color:
+        #2BA3A0
+        transparent
+        transparent
+        transparent;
+}
+
+.accent-bronze {
+    -fx-border-color:
+        #A9743F
+        transparent
+        transparent
+        transparent;
+}
+
+
+/* Large numerical values */
+
+.stat-number {
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #0A4636;
+}
+
+
+/* Supporting labels */
+
+.stat-label {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 16px;
+
+    -fx-text-fill: #7A6452;
+}
+
+
+/* =========================================================
+   GANTT AREA
+   ========================================================= */
+
+.gantt-scroll {
+    -fx-background-color:
+        linear-gradient(
+            to bottom,
+            #1B3358,
+            #12233F
+        );
+
+    -fx-background-radius: 6;
+
+    -fx-border-color: #C8A24A, #C8A24A;
+    -fx-border-width: 2, 1;
+    -fx-border-insets: 0, 5;
+
+    -fx-border-radius: 6;
+
+    -fx-padding: 18 22 14 22;
+
+    -fx-min-height: 150px;
+}
+
+.gantt-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.gantt-scroll .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.gantt-scroll .scroll-bar .track {
+    -fx-background-color: rgba(241, 231, 207, 0.08);
+    -fx-background-radius: 4;
+}
+
+.gantt-scroll .scroll-bar .thumb {
+    -fx-background-color: #C8A24A;
+    -fx-background-radius: 4;
+}
+
+.gantt-scroll .scroll-bar .increment-button,
+.gantt-scroll .scroll-bar .decrement-button {
+    -fx-padding: 0;
+    -fx-pref-height: 0;
+    -fx-pref-width: 0;
+}
+
+
+/* Gantt heading */
+
+.gantt-title {
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #0A4636;
+}
+
+.gantt-caption {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 17px;
+
+    -fx-text-fill: #7A6452;
+}
+
+
+/* =========================================================
+   GANTT BLOCKS
+   ========================================================= */
+
+.gantt-block {
+    -fx-background-radius: 46 46 6 6;
+
+    -fx-border-color: #C8A24A;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 46 46 6 6;
+
+    -fx-alignment: CENTER;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(0, 0, 0, 0.45),
+            14,
+            0.1,
+            0,
+            6
+        );
+}
+
+.gantt-block:hover {
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(200, 162, 74, 0.75),
+            20,
+            0.25,
+            0,
+            0
+        );
+}
+
+
+/* Process identifier */
+
+.gantt-pid {
+    -fx-font-family: "Playfair Display";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #FAF4E4;
+}
+
+
+/* Time range */
+
+.gantt-range {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 17px;
+
+    -fx-text-fill: rgba(250, 244, 228, 0.92);
+}
+
+
+/* Light block text */
+
+.gantt-pid.on-light,
+.gantt-range.on-light {
+    -fx-text-fill: #3A2E25;
+}
+
+
+/* Idle block */
+
+.gantt-idle {
+    -fx-background-color:
+        rgba(241, 231, 207, 0.06);
+
+    -fx-background-radius: 46 46 6 6;
+
+    -fx-border-color:
+        rgba(200, 162, 74, 0.6);
+
+    -fx-border-style: segments(6, 5);
+
+    -fx-border-radius: 46 46 6 6;
+
+    -fx-alignment: CENTER;
+
+    -fx-text-fill: #9FB3C8;
+
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 17px;
+}
+
+
+/* =========================================================
+   GANTT TIME AXIS
+   ========================================================= */
+
+.gantt-axis-line {
+    -fx-background-color:
+        linear-gradient(
+            to right,
+            #C8A24A,
+            rgba(200, 162, 74, 0.35)
+        );
+
+    -fx-pref-height: 1.5px;
+    -fx-max-height: 1.5px;
+}
+
+.gantt-tick {
+    -fx-font-family: "Libre Baskerville";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #7FD0CB;
+}
+
+.gantt-axis-label {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 15px;
+
+    -fx-text-fill: #9FC9C4;
+}
+
+
+/* =========================================================
+   TOOLTIP
+   ========================================================= */
+
+.tooltip {
+    -fx-background-color: #FAF4E4;
+
+    -fx-text-fill: #3A2E25;
+
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-style: italic;
+    -fx-font-size: 15px;
+
+    -fx-background-radius: 4;
+
+    -fx-border-color: #8C6A4A;
+    -fx-border-radius: 4;
+    -fx-border-width: 1.5;
+
+    -fx-padding: 8 12;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(58, 46, 37, 0.30),
+            10,
+            0.1,
+            0,
+            3
+        );
+}
+
+
+/* =========================================================
+   PLAYBACK CONTROLS
+   ========================================================= */
+
+.playback-panel {
+    -fx-background-color:
+        rgba(250, 244, 228, 0.88);
+
+    -fx-background-radius: 8;
+
+    -fx-border-color: #C8A24A;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+
+    -fx-padding: 12 16;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(10, 70, 54, 0.16),
+            12,
+            0.05,
+            0,
+            4
+        );
+}
+
+
+/* Playback buttons */
+
+.playback-button {
+    -fx-background-color: #0F6B4F;
+
+    -fx-text-fill: #FAF4E4;
+
+    -fx-border-color: #C8A24A;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+
+    -fx-padding: 9 16;
+
+    -fx-font-family: "Reem Kufi";
+    -fx-font-size: 13px;
+
+    -fx-cursor: hand;
+}
+
+.playback-button:hover {
+    -fx-background-color: #1A8462;
+
+    -fx-effect:
+        dropshadow(
+            gaussian,
+            rgba(200, 162, 74, 0.65),
+            10,
+            0.2,
+            0,
+            2
+        );
+}
+
+.playback-button:pressed {
+    -fx-background-color: #0A4636;
+}
+
+
+/* Speed label */
+
+.speed-label {
+    -fx-font-family: "Cinzel";
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+
+    -fx-text-fill: #0A4636;
+}
+
+
+/* Speed values */
+
+.speed-caption {
+    -fx-font-family: "Cormorant Garamond";
+    -fx-font-size: 15px;
+    -fx-font-style: italic;
+
+    -fx-text-fill: #7A6452;
+}
+
+
+/* Slider */
+
+.slider .track {
+    -fx-background-color: #D8C89F;
+    -fx-background-radius: 4;
+}
+
+.slider .thumb {
+    -fx-background-color: #C8A24A;
+
+    -fx-background-radius: 8;
+
+    -fx-border-color: #8C6A4A;
+    -fx-border-radius: 8;
+}
+
+.slider .thumb:hover {
+    -fx-background-color: #D6B35D;
+}

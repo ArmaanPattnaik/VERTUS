@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane
+        xmlns="http://javafx.com/javafx/25"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.example.controller.MainController"
+        stylesheets="@styles.css"
+        styleClass="root-container">
+
+    <!-- =====================================================
+         LEFT SIDEBAR
+         ===================================================== -->
+
+    <left>
+
+        <VBox
+                styleClass="sidebar"
+                spacing="14"
+                prefWidth="285">
+
+            <padding>
+                <Insets
+                        top="28"
+                        right="24"
+                        bottom="28"
+                        left="24"/>
+            </padding>
+
+            <Label
+                    text="CPU Scheduler"
+                    styleClass="app-title"/>
+
+            <Separator/>
+
+            <Label
+                    text="Scheduling Algorithm"
+                    styleClass="input-label"/>
+
+            <ComboBox
+                    fx:id="algoSelect"
+                    maxWidth="Infinity"
+                    styleClass="input-control"/>
+
+            <Label
+                    text="Arrival Time"
+                    styleClass="input-label"/>
+
+            <TextField
+                    fx:id="atInput"
+                    promptText="e.g. 0"
+                    styleClass="input-control"/>
+
+            <Label
+                    text="Burst Time"
+                    styleClass="input-label"/>
+
+            <TextField
+                    fx:id="btInput"
+                    promptText="Press Enter to add"
+                    styleClass="input-control"/>
+
+            <Label
+                    text="Priority"
+                    styleClass="input-label"/>
+
+            <TextField
+                    fx:id="priorityInput"
+                    promptText="Lower number = higher priority"
+                    styleClass="input-control"/>
+
+            <VBox
+                    fx:id="quantumBox"
+                    spacing="7">
+
+                <Label
+                        text="Time Quantum"
+                        styleClass="input-label"/>
+
+                <TextField
+                        fx:id="quantumInput"
+                        promptText="e.g. 2"
+                        styleClass="input-control"/>
+
+            </VBox>
+
+            <Button
+                    text="+  Add Process"
+                    onAction="#addProcess"
+                    maxWidth="Infinity"
+                    styleClass="secondary-button"/>
+
+            <Region
+                    VBox.vgrow="ALWAYS"/>
+
+            <Button
+                    text="▶  Run Simulation"
+                    onAction="#runSimulation"
+                    maxWidth="Infinity"
+                    styleClass="primary-button"/>
+
+            <Button
+                    text="Clear All"
+                    onAction="#clearAll"
+                    maxWidth="Infinity"
+                    styleClass="danger-button"/>
+
+        </VBox>
+
+    </left>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <center>
+
+        <VBox
+                spacing="14"
+                styleClass="content-area">
+
+            <padding>
+                <Insets
+                        top="24"
+                        right="30"
+                        bottom="24"
+                        left="30"/>
+            </padding>
+
+
+            <!-- =================================================
+                 PAGE TITLE
+                 ================================================= -->
+
+            <Label
+                    text="Process Simulation"
+                    styleClass="page-title"/>
+
+
+            <!-- =================================================
+                 PROCESS TABLE
+                 ================================================= -->
+
+            <VBox
+                    spacing="8"
+                    VBox.vgrow="ALWAYS">
+
+                <Label
+                        text="Process Metrics"
+                        styleClass="section-title"/>
+
+                <TableView
+                        fx:id="processTable"
+                        VBox.vgrow="ALWAYS"
+                        styleClass="process-table">
+
+                    <columns>
+
+                        <TableColumn
+                                fx:id="colPid"
+                                text="PID"
+                                prefWidth="80"/>
+
+                        <TableColumn
+                                fx:id="colAt"
+                                text="AT"
+                                prefWidth="80"/>
+
+                        <TableColumn
+                                fx:id="colBt"
+                                text="BT"
+                                prefWidth="80"/>
+
+                        <TableColumn
+                                fx:id="colPriority"
+                                text="Priority"
+                                prefWidth="90"/>
+
+                        <TableColumn
+                                fx:id="colCt"
+                                text="CT"
+                                prefWidth="90"/>
+
+                        <TableColumn
+                                fx:id="colTat"
+                                text="TAT"
+                                prefWidth="90"/>
+
+                        <TableColumn
+                                fx:id="colWt"
+                                text="WT"
+                                prefWidth="90"/>
+
+                    </columns>
+
+                </TableView>
+
+            </VBox>
+
+
+            <!-- =================================================
+                 STATISTICS
+                 ================================================= -->
+
+            <HBox
+                    spacing="12"
+                    styleClass="summary-container">
+
+                <VBox
+                        styleClass="stat-card accent-emerald"
+                        HBox.hgrow="ALWAYS">
+
+                    <Label
+                            fx:id="avgTatLabel"
+                            text="0.00"
+                            styleClass="stat-number"/>
+
+                    <Label
+                            text="Average TAT"
+                            styleClass="stat-label"/>
+
+                </VBox>
+
+                <VBox
+                        styleClass="stat-card accent-aqua"
+                        HBox.hgrow="ALWAYS">
+
+                    <Label
+                            fx:id="avgWtLabel"
+                            text="0.00"
+                            styleClass="stat-number"/>
+
+                    <Label
+                            text="Average WT"
+                            styleClass="stat-label"/>
+
+                </VBox>
+
+                <VBox
+                        styleClass="stat-card accent-bronze"
+                        HBox.hgrow="ALWAYS">
+
+                    <Label
+                            fx:id="cpuUtilLabel"
+                            text="0.00%"
+                            styleClass="stat-number"/>
+
+                    <Label
+                            text="CPU Utilization"
+                            styleClass="stat-label"/>
+
+                </VBox>
+
+            </HBox>
+
+
+            <!-- =================================================
+                 GANTT HEADER
+                 ================================================= -->
+
+            <HBox
+                    alignment="CENTER_LEFT"
+                    spacing="10">
+
+                <Label
+                        text="Gantt Chart"
+                        styleClass="section-title"/>
+
+                <Label
+                        text="Execution Timeline"
+                        styleClass="section-caption"/>
+
+            </HBox>
+
+
+            <!-- =================================================
+                 SHORT GANTT AREA
+                 ================================================= -->
+
+            <ScrollPane
+                    minHeight="155"
+                    prefHeight="155"
+                    maxHeight="155"
+                    fitToHeight="true"
+                    hbarPolicy="AS_NEEDED"
+                    vbarPolicy="NEVER"
+                    styleClass="gantt-scroll">
+
+                <HBox
+                        fx:id="ganttContainer"
+                        spacing="5"
+                        alignment="CENTER_LEFT">
+
+                    <padding>
+                        <Insets
+                                top="18"
+                                right="18"
+                                bottom="18"
+                                left="18"/>
+                    </padding>
+
+                </HBox>
+
+            </ScrollPane>
+
+
+            <!-- =================================================
+                 PLAYBACK
+                 ================================================= -->
+
+            <HBox
+                    spacing="10"
+                    alignment="CENTER_LEFT"
+                    styleClass="playback-panel">
+
+                <Button
+                        fx:id="stepButton"
+                        text="→  Step Forward"
+                        onAction="#stepForward"
+                        styleClass="playback-button"/>
+
+                <Button
+                        fx:id="playbackButton"
+                        text="▶  Playback"
+                        onAction="#togglePlayback"
+                        styleClass="playback-button"/>
+
+                <Label
+                        text="Speed"
+                        styleClass="speed-label"/>
+
+                <Slider
+                        fx:id="speedSlider"
+                        min="0.25"
+                        max="2.0"
+                        value="1.0"
+                        prefWidth="150"/>
+
+                <Label
+                        text="0.25×"
+                        styleClass="speed-caption"/>
+
+                <Label
+                        text="2×"
+                        styleClass="speed-caption"/>
+
+            </HBox>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

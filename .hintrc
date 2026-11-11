@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "-fx-cursor",
+       "font-smoothing",
+          "text-decoration-skip-ink"
+        ]
+      }
+    ]
+  }
+}
