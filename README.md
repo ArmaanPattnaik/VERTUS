@@ -101,13 +101,13 @@ cpu-scheduling-simulator/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/ArmaanPattnaik/cpu-scheduling-simulator.git
+git clone https://github.com/ArmaanPattnaik/ VERTUS.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd cpu-scheduling-simulator
+cd VERTUS
 ```
 
 3. Open the project in your preferred Java IDE.
